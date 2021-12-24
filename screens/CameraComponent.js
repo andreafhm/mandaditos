@@ -6,6 +6,17 @@ export default function CameraComponent(props) {
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
 
+    takePicture = () => {
+        if (this.camera) {
+            this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
+        }
+     };
+  
+    onPictureSaved = photo => {
+        console.log(photo);
+        props.navigation.navigate("CreateProductoScreen");
+    } 
+
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestPermissionsAsync();
@@ -21,7 +32,7 @@ export default function CameraComponent(props) {
     }
     return (
         <View style={styles.container}>
-            <Camera style={styles.camera} type={type}>
+            <Camera style={styles.camera} type={type} ref={(ref) => { this.camera = ref }}>
                 <View style={{paddingVertical: 7,
                     backgroundColor: 'gray',
                     alignItems: 'center',
@@ -48,7 +59,8 @@ export default function CameraComponent(props) {
                     justifyContent: 'center'
                 }}>
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("CreateProductoScreen")}
+                        //onPress={() => props.navigation.navigate("CreateProductoScreen")}
+                        onPress={this.takePicture}
                     >
                         <Text style={styles.text}>Tomar Foto</Text>
                     </TouchableOpacity>

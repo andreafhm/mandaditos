@@ -9,9 +9,10 @@ import {
 } from "react-native";
 
 const Location = (props) => {
+    
     const [state, setState] = useState({
-        longitud: 0,
-        latitud: 0,
+        longitud: null,
+        latitud: null,
     });
 
     useEffect(() => {
@@ -31,22 +32,17 @@ const Location = (props) => {
         );
     });
     return (<ScrollView style={styles.container}>
-        {/* Latitud Input */}
-        Latitud:
         <View style={styles.inputGroup}>
             <TextInput
                 placeholder="Latitud"
-                value={state.latitud}
+                value={"Latitud: "+state.latitud}
             />
         </View>
-
-        {/* Longitud Input */}
-        Longitud:
         <View style={styles.inputGroup}>
             <TextInput
                 placeholder="Longitud"
                 multiline={true}
-                value={state.longitud}
+                value={"Longitud: "+state.longitud}
             />
         </View>
         <View style={styles.button}>
