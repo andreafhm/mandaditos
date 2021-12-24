@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   View,
@@ -7,29 +7,29 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import {  Text, Input} from 'react-native-elements';
+import { Text, Input } from 'react-native-elements';
 
-import firebase  from './firebase';
+import firebase from './firebase';
 import Moment from 'moment';
 
 
 const AddPedidoScreen = (props) => {
-  
-  const initalState = { 
-    id_producto:"",
+
+  const initalState = {
+    id_producto: "",
     nombre: "",
-    fecha:"",
-    precio:"",
-    cantidad:"",
-    direccion:"",
-    entregado:false
+    fecha: "",
+    precio: "",
+    cantidad: "",
+    direccion: "",
+    entregado: false
   };
 
   const [state, setState] = useState(initalState);
   const [loading, setLoading] = useState(true);
 
 
-   const handleChangeText = (value, name) => {   
+  const handleChangeText = (value, name) => {
     setState({ ...state, [name]: value });
   };
 
@@ -37,14 +37,15 @@ const AddPedidoScreen = (props) => {
     const dbRef = firebase.db.collection("productos").doc(id);
     const doc = await dbRef.get();
     const state = doc.data();
-    setState({ ...state, 
-        id_producto: doc.id,
-        fecha:"",
-    precio:state.precio,
-    cantidad:"",
-    direccion:"",
-    descripcion: state.descripcion
-     });
+    setState({
+      ...state,
+      id_producto: doc.id,
+      fecha: "",
+      precio: state.precio,
+      cantidad: "",
+      direccion: "",
+      descripcion: state.descripcion
+    });
     setLoading(false);
   };
 
@@ -68,8 +69,8 @@ const AddPedidoScreen = (props) => {
         await firebase.db.collection("pedidos").add({
           nombre: state.nombre,
           fecha: Moment().format("YYYY-MM-DD"),
-          precio:state.precio,
-          cantidad:state.cantidad,
+          precio: state.precio,
+          cantidad: state.cantidad,
           direccion: state.direccion,
           entregado: false
         });
@@ -83,36 +84,36 @@ const AddPedidoScreen = (props) => {
 
   return (
     <ScrollView style={styles.container}>
-      
-       {/* datos*/}
+
+      {/* datos*/}
       <View style={styles.inputGroup}>
         <Text
           h5
         >
           Producto: {state.nombre}
         </Text>
-        </View>
+      </View>
 
-        <View style={styles.inputGroup}>
+      <View style={styles.inputGroup}>
         <Text
           h6
         >
-          Precio: {state.precio} 
+          Precio: {state.precio}
         </Text>
-        </View>
-        <View style={styles.inputGroup}>
+      </View>
+      <View style={styles.inputGroup}>
         <Text
           h6
         >
           Fecha de transacción: {Moment().format("YYYY-MM-DD")}
         </Text>
-        </View>
-        
-      
+      </View>
+
+
       {/* Input */}
       <View style={styles.inputGroup}>
         <TextInput
-        
+
           placeholder="cantidad"
           onChangeText={(value) => handleChangeText(value, "cantidad")}
           value={state.cantidad}
@@ -120,17 +121,24 @@ const AddPedidoScreen = (props) => {
       </View>
       {/* Input */}
       <View style={styles.inputGroup}>
-        <TextInput  
-          placeholder ="Dirección"
+        <TextInput
+          placeholder="Dirección"
           onChangeText={(value) => handleChangeText(value, "direccion")}
           value={state.direccion}
         />
-      </View>     
-       
-        <View style={styles.buttonsContainer}>
+      </View>
+      <View style={styles.inputGroup}>
+        <Button
+          onPress={() => props.navigation.navigate("Location")}
+          color="gray"
+          title=" ver Coordenadas"
+
+        /></View>
+
+      <View style={styles.inputGroup}>
         <Button title="Agregar Producto" onPress={() => saveNewPedido()} />
-      </View>     
-     
+      </View>
+
     </ScrollView>
   );
 };
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#cccccc",
   },
- 
+
   buttonsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',

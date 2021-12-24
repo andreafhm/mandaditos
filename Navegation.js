@@ -19,7 +19,8 @@ import PedidoListxVendedorEditar from "./screens/PedidoListxVendedorEditar";
 import PedidoList from "./screens/PedidoList"
 import CreatePedidoScreen from "./screens/CreatePedidoScreen"
 import CreatePedidoScreenListProducto from "./screens/CreatePedidoScreenListProducto"
-
+import Location from "./screens/Location";
+import CameraComponent from "./screens/CameraComponent";
 
 
 
@@ -132,6 +133,16 @@ const Navigation = props => {
                     name="CreatePedidoScreenListProducto"
                     component={CreatePedidoScreenListProducto}
                     options={{ title: "Seleccione un producto" }}
+                />
+                <Stacks.Screen
+                    name="Location"
+                    component={Location}
+                    options={{ title: "Localización" }}
+                />
+                <Stacks.Screen
+                    name="CameraComponent"
+                    component={CameraComponent}
+                    options={{ title: "Tomar foto" }}
                 />
             </Stacks.Navigator>
         </NavigationContainer>

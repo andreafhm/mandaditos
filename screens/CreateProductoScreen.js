@@ -15,7 +15,7 @@ const AddProductoScreen = (props) => {
     nombre: "",
     descripcion: "",
     precio: "",
-    cantidad:"",
+    cantidad: "",
   };
 
   const [state, setState] = useState(initalState);
@@ -34,7 +34,7 @@ const AddProductoScreen = (props) => {
           nombre: state.nombre,
           descripcion: state.descripcion,
           precio: state.precio,
-          cantidad:state.cantidad,
+          cantidad: state.cantidad,
         });
 
         props.navigation.navigate("ProductosList");
@@ -83,7 +83,14 @@ const AddProductoScreen = (props) => {
         />
       </View>
 
-      <View style={styles.button}>
+
+      <View style={styles.inputGroup}>
+        <Button title="Tomar Foto"
+          color="#19AC52"
+          onPress={() => props.navigation.navigate("CameraComponent")} />
+      </View>
+
+      <View style={styles.inputGroup}>
         <Button title="Agregar Producto" onPress={() => saveNewProducto()} />
       </View>
     </ScrollView>
