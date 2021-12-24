@@ -1,12 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Svg, { G, Ellipse, Path, Defs, ClipPath, Rect } from "react-native-svg";
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './firebase-config';
-
 
 
 function SvgTop() {
@@ -29,24 +29,31 @@ function SvgTop() {
     )
 }
 
-const Register = () => {
+const Login2 = () => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
+
     const app = initializeApp(firebaseConfig);
+
     const auth = getAuth(app)
 
-    const handleCreateAccount = () => {
-        createUserWithEmailAndPassword(auth, email, password)
+    const handleSignIn = () => {
+        signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                console.log('Cuenta creada')
+                console.log('Inicio Sesion!')
                 const user = userCredential.user;
                 console.log(user)
-                navigation.navigate('Login')
+                navigation.navigate('Productos')
             })
             .catch(error => {
-            console.log(error)
+                console.log(error)
+                Alert.alert(error.message)
         })
     }
+
+
+
+
     const navigation = useNavigation();
     return (
         <View style={styles.mainContainer}>
@@ -54,13 +61,13 @@ const Register = () => {
                 <SvgTop />
             </View>
             <View style={styles.container}>
-                <Text style={styles.titulo}> Crea una Cuenta </Text>
+                <Text style={styles.titulo}> "Mandaditos" </Text>
+                <Text style={styles.subtitulo}> ¡Bienvenido Vendedor! Ingresa con tu cuenta </Text>
                 <TextInput onChangeText={(text) => setEmail(text)} style={styles.textInput} placeholder="Correo" />
-                <TextInput  onChangeText={(text) => setPassword(text)} style={styles.textInput} placeholder="Contraseña" secureTextEntry={true} />
-                <TextInput style={styles.textInput} placeholder="Tipo de usuario" />
+                <TextInput onChangeText={(text) => setPassword(text)} style={styles.textInput} placeholder="Contraseña" secureTextEntry={true} />
 
                 <TouchableOpacity
-                    onPress={handleCreateAccount}
+                    onPress={ handleSignIn }
                     style={{
                         backgroundColor: 'orange',
                         padding: 10,
@@ -73,15 +80,19 @@ const Register = () => {
                         fontSize: 15,
                         textAlign: "center",
                         color: "white",
-                    }}>Registrar</Text>
+                    }}>Ingresar</Text>
                 </TouchableOpacity>
+                <Text style={ [
+                         styles.textBody, { fontSize: 15,
+                            textAlign: "center",
+                            marginTop: "20%", color: 'blue', textDecorationLine: 'underline' }]} onPress={() => navigation.navigate('Login')}> Ingresar como comprador</Text>
 
                 <Text style={{
-                        fontSize: 15,
-                        textAlign: "center",
-                        marginTop: "20%"
-                }}>¿Ya tienes una cuenta? <Text style={[styles.textBody, { color: 'blue', textDecorationLine: 'underline' }]} onPress={() => navigation.navigate('Login')}> Inicia Sesión</Text></Text>
-                 
+                    fontSize: 15,
+                    textAlign: "center",
+                    
+                }}>¿No tienes una cuenta?</Text>
+                <Text style={[styles.textBody, { color: 'blue', textDecorationLine: 'underline' }]} onPress={() => navigation.navigate('Register')}> Regístrate</Text>
             </View>
 
 
@@ -100,16 +111,16 @@ const Register = () => {
             justifyContent: 'center',
         },
         containerSVG: {
-            width: '100%',
+            width: '72%',
             height: '40%',
             justifyContent: 'flex-start',
             alignItems: 'center',
         },
         titulo: {
-            fontSize: 40,
+            fontSize: 50,
             color: '#34434D',
             fontWeight: 'bold',
-            paddingStart: 0,
+            fontStyle: 'italic',
         },
         subtitulo: {
             fontSize: 15,
@@ -127,4 +138,4 @@ const Register = () => {
 
 
     })
-export default Register;
+export default Login2;
